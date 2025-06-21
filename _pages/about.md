@@ -1,9 +1,9 @@
 ---
 title: About
-author: Tao He
-date: 2022-02-04
+author: Jw
+date: 2025-06-21
 category: Jekyll
 layout: post
 ---
 
-This is an about page.
+이 블로그는 시간에 감에 따라 나의 변화 과정을 보기 위함입니다.
