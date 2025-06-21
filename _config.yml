@@ -44,7 +44,8 @@ markdown_ext:             markdown,mkdown,mkdn,mkd,md
 permalink:                /:categories/:year-:month-:day-:title:output_ext
 
 # Disqus comments
-disqushandler:            Jw
+disqushandler:            https-woooooons-github-io
+
 
 exclude:
   - _drafts
