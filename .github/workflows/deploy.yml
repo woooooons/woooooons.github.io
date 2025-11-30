@@ -6,7 +6,7 @@ on:
       - main
   repository_dispatch:
     types: [content-update]
-  workflow_dispatch:  # 수동 실행 버튼 추가 (테스트용)
+  workflow_dispatch:
  
 permissions:
   contents: read
@@ -31,13 +31,16 @@ jobs:
           git clone https://github.com/woooooons/obsidian-vault.git temp-vault
           rm -rf content
           mkdir -p content
-          cp -r temp-vault/* content/ 2>/dev/null || true
-          cp -r temp-vault/.* content/ 2>/dev/null || true
+          
+          # .git, .github, node_modules 등 제외하고 복사
+          rsync -av --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='.obsidian' temp-vault/ content/
+          
           rm -rf temp-vault
-          rm -rf content/.git
       
-      - name: List content directory
-        run: ls -la content/
+      - name: List content directory structure
+        run: |
+          echo "=== Content directory structure ==="
+          find content -type f -o -type d | head -30
       
       - uses: actions/setup-node@v4
         with:
@@ -50,7 +53,9 @@ jobs:
         run: npx quartz build
       
       - name: List public directory contents
-        run: ls -la public/
+        run: |
+          echo "=== Public directory structure ==="
+          find public -type f -o -type d | head -50
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
