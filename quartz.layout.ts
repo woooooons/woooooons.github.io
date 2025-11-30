@@ -37,10 +37,7 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.ConditionalRender({
-      component: Component.Explorer(),
-      condition: (page) => page.fileData.slug !== "index", // 홈 페이지 제외
-    }),
+    Component.Explorer(),
   ],
   right: [
     Component.Graph(),
