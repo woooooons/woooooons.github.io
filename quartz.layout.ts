@@ -59,9 +59,14 @@ export const defaultListPageLayout: PageLayout = {
           grow: true,
         },
         { Component: Component.Darkmode() },
+        { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({
+      title: "Explorer", 
+      folderDefaultState: "collapsed",
+      folderClickBehavior: "link",
+    }),
   ],
   right: [],
 }
