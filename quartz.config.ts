@@ -17,7 +17,7 @@ const config: QuartzConfig = {
     },
     locale: "ko-KR",
     baseUrl: "woooooons.github.io",
-    ignorePatterns: ["private", "templates", ".obsidian", "README.md", "CODE_OF_CONDUCT.md", "LICENSE", "홈"],
+    ignorePatterns: ["private", "templates", ".obsidian", "README.md", "CODE_OF_CONDUCT.md", "LICENSE", "content"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",
