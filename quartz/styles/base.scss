@@ -215,10 +215,12 @@ a {
       top: 0;
       box-sizing: border-box;
       padding: $topSpacing 2rem 2rem 2rem;
+      padding-top: 25px;
       display: flex;
       height: 100vh;
       position: sticky;
     }
+
 
     & .sidebar.left {
       z-index: 1;
