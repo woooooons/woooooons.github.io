@@ -21,7 +21,7 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       
@@ -42,7 +42,7 @@ jobs:
           echo "=== Content directory structure ==="
           find content -type f -o -type d | head -30
       
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
       
@@ -58,7 +58,7 @@ jobs:
           find public -type f -o -type d | head -50
       
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: public
  
