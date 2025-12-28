@@ -41,14 +41,19 @@ const defaultOptions: Options = {
 
 function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndexMap): string {
   const base = cfg.baseUrl ?? ""
+  // encodeURI does not encode some reserved characters like parentheses/commas.
+  // While browsers often accept them, sitemap consumers can be stricter.
+  const encodeSitemapSlug = (slug: SimpleSlug) =>
+    encodeURI(slug).replace(/[(),]/g, (c) => encodeURIComponent(c))
+
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => `<url>
-    <loc>https://${joinSegments(base, encodeURI(slug))}</loc>
+    <loc>https://${joinSegments(base, encodeSitemapSlug(slug))}</loc>
     ${content.date && `<lastmod>${content.date.toISOString()}</lastmod>`}
   </url>`
   const urls = Array.from(idx)
     .map(([slug, content]) => createURLEntry(simplifySlug(slug), content))
     .join("")
-  return `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${urls}</urlset>`
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${urls}</urlset>`
 }
 
 function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndexMap, limit?: number): string {
