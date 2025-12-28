@@ -1,6 +1,18 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 
+const env = (key: string) => {
+  const v = process.env[key]
+  if (typeof v !== "string") return undefined
+  const t = v.trim()
+  return t.length > 0 ? t : undefined
+}
+
+// Keep sensitive values out of git by setting them via environment variables.
+// Local: put them in `.env` (ignored by git). GitHub Actions: set Repo Secrets/Variables.
+const QUARTZ_BASE_URL = env("QUARTZ_BASE_URL") ?? "woooooons.github.io"
+const QUARTZ_GOOGLE_TAG_ID = env("QUARTZ_GOOGLE_TAG_ID")
+
 /**
  * Quartz 4 Configuration
  *
@@ -13,10 +25,12 @@ const config: QuartzConfig = {
     enableSPA: true,
     enablePopovers: true,
     analytics: {
-      provider: "plausible",
-    },
+      ...(QUARTZ_GOOGLE_TAG_ID
+        ? { provider: "google" as const, tagId: QUARTZ_GOOGLE_TAG_ID }
+        : null),
+    } as QuartzConfig["configuration"]["analytics"],
     locale: "ko-KR",
-    baseUrl: "woooooons.github.io",
+    baseUrl: QUARTZ_BASE_URL,
     ignorePatterns: ["private", "templates", "README.md", "CODE_OF_CONDUCT.md", "LICENSE"],
     defaultDateType: "modified",
     theme: {
