@@ -41,10 +41,17 @@ const defaultOptions: Options = {
 
 function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndexMap): string {
   const base = cfg.baseUrl ?? ""
-  // encodeURI does not encode some reserved characters like parentheses/commas.
-  // While browsers often accept them, sitemap consumers can be stricter.
-  const encodeSitemapSlug = (slug: SimpleSlug) =>
-    encodeURI(slug).replace(/[(),]/g, (c) => encodeURIComponent(c))
+  // Encode each path segment to avoid leaving reserved characters (e.g. (), +, ,) unescaped.
+  // Some sitemap consumers are stricter than browsers.
+  const encodeSitemapSlug = (slug: SimpleSlug) => {
+    if (slug === "/" || slug === "") return ""
+    const trimmed = slug.replace(/^\/+/, "")
+    return trimmed
+      .split("/")
+      .filter((s) => s.length > 0)
+      .map((segment) => encodeURIComponent(segment))
+      .join("/")
+  }
 
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => `<url>
     <loc>https://${joinSegments(base, encodeSitemapSlug(slug))}</loc>
