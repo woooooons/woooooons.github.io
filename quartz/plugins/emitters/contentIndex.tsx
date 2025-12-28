@@ -134,10 +134,19 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       }
 
       if (opts?.enableRSS) {
+        const rssContent = generateRSSFeed(cfg, linkIndex, opts.rssLimit)
         yield write({
           ctx,
-          content: generateRSSFeed(cfg, linkIndex, opts.rssLimit),
+          content: rssContent,
           slug: (opts?.rssSlug ?? "index") as FullSlug,
+          ext: ".xml",
+        })
+        // Jekyll/일반 관례 호환용 alias: /feed.xml 도 같이 제공
+        // (Search Console/리더들이 feed.xml을 기본으로 찾는 경우가 있어 같이 생성)
+        yield write({
+          ctx,
+          content: rssContent,
+          slug: "feed" as FullSlug,
           ext: ".xml",
         })
       }
