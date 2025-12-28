@@ -50,6 +50,7 @@ jobs:
           # Repo Settings → Secrets and variables → Actions 에 등록
           QUARTZ_BASE_URL: ${{ vars.QUARTZ_BASE_URL }}
           QUARTZ_GOOGLE_TAG_ID: ${{ secrets.QUARTZ_GOOGLE_TAG_ID }}
+          QUARTZ_GOOGLE_SITE_VERIFICATION: ${{ vars.QUARTZ_GOOGLE_SITE_VERIFICATION }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

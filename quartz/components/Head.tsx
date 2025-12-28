@@ -12,6 +12,11 @@ export default (() => {
     externalResources,
     ctx,
   }: QuartzComponentProps) => {
+    // Google Search Console HTML 태그 검증용 (보안상 민감정보 아님)
+    // Local: `.env`에 QUARTZ_GOOGLE_SITE_VERIFICATION 추가
+    // GitHub Actions: Repo Settings → Secrets/Variables에 등록
+    const googleSiteVerification = process.env.QUARTZ_GOOGLE_SITE_VERIFICATION?.trim()
+
     const titleSuffix = cfg.pageTitleSuffix ?? ""
     const title =
       (fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title) + titleSuffix
@@ -40,6 +45,9 @@ export default (() => {
       <head>
         <title>{title}</title>
         <meta charSet="utf-8" />
+        {googleSiteVerification && (
+          <meta name="google-site-verification" content={googleSiteVerification} />
+        )}
         {cfg.theme.cdnCaching && cfg.theme.fontOrigin === "googleFonts" && (
           <>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
