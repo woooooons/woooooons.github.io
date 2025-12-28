@@ -24,11 +24,7 @@ const config: QuartzConfig = {
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      ...(QUARTZ_GOOGLE_TAG_ID
-        ? { provider: "google" as const, tagId: QUARTZ_GOOGLE_TAG_ID }
-        : null),
-    } as QuartzConfig["configuration"]["analytics"],
+    analytics: QUARTZ_GOOGLE_TAG_ID ? { provider: "google", tagId: QUARTZ_GOOGLE_TAG_ID } : null,
     locale: "ko-KR",
     baseUrl: QUARTZ_BASE_URL,
     ignorePatterns: ["private", "templates", "README.md", "CODE_OF_CONDUCT.md", "LICENSE"],
